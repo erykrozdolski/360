@@ -105,12 +105,14 @@ class TinyButton(Widget):
         self.add_widget(self.label)
 
     def on_touch_down(self, touch):
+        global click_sound
+        click_sound.play()
         if self.corner_pos[1] < touch.y < self.y + self.radius:
             sm.current = self.screen
 
 
 class Circle(Widget):
-    was_position = ListProperty(None)
+    was_position = ListProperty()
     font_size = NumericProperty(20)
     text = StringProperty('0')
 
@@ -136,10 +138,10 @@ class Circle(Widget):
             self.position_list.append((x, y))
 
         with self.canvas:
-            self.ellipse = Ellipse(texture=(self.texture), pos=(self.corner_pos),
+            self.ellipse = Ellipse(texture=self.texture, pos=self.corner_pos,
                                    size=(self.radius * 2, self.radius * 2))
-            self.label = Label(text=(self.text), pos=(self.x - 50, self.y - 50), font_size=(self.font_size),
-                               font_name=('Montserrat-SemiBold.ttf'), markup=True)
+            self.label = Label(text=self.text, pos=(self.x - 50, self.y - 50), font_size=self.font_size,
+                               font_name='Montserrat-SemiBold.ttf', markup=True)
         self.bind(text=self.update)
 
     def update(self):
@@ -177,8 +179,8 @@ class Player(Widget):
         self.position = 180
         self.speed = 2
         self.enemies_circle_list = enemies_circle_list
-        self.x = self.pos[0] + self.diameter // 2
-        self.y = self.pos[1] + self.diameter // 2
+        self.x = self.pos[0] + self.radius
+        self.y = self.pos[1] + self.radius
 
     def set_position(self):
         if self.change_direction == True:
@@ -194,16 +196,16 @@ class Player(Widget):
         self.pos = self.position_list[self.position]
 
     def set_circle(self):
-        if self.x > self.actual_circle.x - self.diameter * 2.25 and self.x < self.actual_circle.x + self.diameter * 2.25:
+        if self.x > self.actual_circle.x - self.actual_circle.radius * 0.4 and self.x < self.actual_circle.x + self.actual_circle.radius * 0.4:
             if self.actual_circle == self.main_circle:
                 if self.y < self.actual_circle.y:
                     self.new_actual_circle = self.third_circle
                 elif self.y > self.actual_circle.y:
                     self.new_actual_circle = self.second_circle
-            if self.actual_circle == self.third_circle:
+            elif self.actual_circle == self.third_circle:
                 if self.y > self.actual_circle.y:
                     self.new_actual_circle = self.main_circle
-            if self.actual_circle == self.second_circle:
+            elif self.actual_circle == self.second_circle:
                 if self.y < self.actual_circle.y:
                     self.new_actual_circle = self.main_circle
         if self.new_actual_circle != self.actual_circle:
@@ -216,7 +218,7 @@ class Player(Widget):
                 if self.y < self.actual_circle.y:
                     self.position = int(abs(self.position - len(self.position_list)))
 
-                if self.y > self.actual_circle.y:
+                elif self.y > self.actual_circle.y:
                     self.position = int(abs(self.position - len(self.position_list)))
 
             if self.actual_circle == self.second_circle:
@@ -438,7 +440,7 @@ class GameScreen(Screen):
 
         for circle in self.enemies_circle_list:
             circle.update()
-            print('circle_position:',circle.position,'player_posisiton', self.player_circle.position)
+
 
     def enemy_change_speed(self, dt):
 
@@ -451,7 +453,7 @@ class GameScreen(Screen):
                 self.player_circle.change_direction = True
             else:
                 self.player_circle.change_direction = False
-        if touch.pos[0] < 200:
+        elif touch.pos[0] < 200:
             self.player_circle.set_circle()
 
 
@@ -484,15 +486,16 @@ class GameOverScreen(Screen):
         self.add_widget(self.again_button)
         self.add_widget(self.menu_button)
 
-    def update(self, dt):
+    def update(self,dt):
         global score, direction_time, sm
         self.game_score = str(score)
 
     def on_pre_enter(self):
         global score, store
+
         if score > int(self.highscore):
             self.highscore = str(score)
-            store.put('highscore', best=self.highscore)
+            store.put('highscore', best= self.highscore)
 
         Clock.schedule_interval(self.update, 1.0 / 60)
 
