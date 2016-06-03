@@ -4,7 +4,7 @@
 title = 360
 
 # (str) Package name
-package.name = My360
+package.name = circlearound
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
 
@@ -32,7 +32,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy
+requirements = kivy, hostpython2
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

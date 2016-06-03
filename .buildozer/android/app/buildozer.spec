@@ -4,7 +4,7 @@
 title = 360
 
 # (str) Package name
-package.name = My360
+package.name = circlearound
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
 

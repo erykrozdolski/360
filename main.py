@@ -394,42 +394,6 @@ class GameScreen(Screen):
             if main_circle.is_full:
                 main_circle.was_position = []
                 main_circle.is_full = False
-
-    def update(self, dt):
-
-        global score, direction_time, sm, speed_time
-        self.game_score = str(score)
-        self.player_circle.set_position()
-        self.is360(self.player_circle, self.player_circle.actual_circle, all=True)
-        self.raise_level(dt)
-        direction_time += 1
-        speed_time += 1
-
-        for circle in self.circle_list:
-            circle.update()
-
-        if self.player_circle.do_kill():
-            sm.current = 'game_over_screen'
-
-    def enemy_update(self, dt):
-
-        for circle in self.enemies_circle_list:
-            circle.update()
-
-    def enemy_change_speed(self, dt):
-
-        if self.min_speed != self.max_speed:
-            self.speed = random.randrange(self.min_speed, self.max_speed)
-
-    def on_touch_down(self, touch):
-        if touch.pos[0] > 200:
-            if self.player_circle.change_direction == False:
-                self.player_circle.change_direction = True
-            else:
-                self.player_circle.change_direction = False
-        if touch.pos[0] < 200:
-            self.player_circle.set_circle()
-
     def restart(self):
         global speed_time, direction_time, score, time, enemies_circle_list, fps, enemy_fps
         self.player_circle.kill = False
@@ -453,10 +417,48 @@ class GameScreen(Screen):
         for i in self.circle_list:
             i.was_position = []
             i.is_full = False
+    def update(self, dt):
+
+        global score, direction_time, sm, speed_time
+        self.game_score = str(score)
+        self.player_circle.set_position()
+        self.is360(self.player_circle, self.player_circle.actual_circle, all=True)
+        self.raise_level(dt)
+        direction_time += 1
+        speed_time += 1
+
+        for circle in self.circle_list:
+            circle.update()
+
+        if self.player_circle.do_kill():
+            sm.current = 'game_over_screen'
+            self.restart()
+
+    def enemy_update(self, dt):
+
+        for circle in self.enemies_circle_list:
+            circle.update()
+            print('circle_position:',circle.position,'player_posisiton', self.player_circle.position)
+
+    def enemy_change_speed(self, dt):
+
+        if self.min_speed != self.max_speed:
+            self.speed = random.randrange(self.min_speed, self.max_speed)
+
+    def on_touch_down(self, touch):
+        if touch.pos[0] > 200:
+            if self.player_circle.change_direction == False:
+                self.player_circle.change_direction = True
+            else:
+                self.player_circle.change_direction = False
+        if touch.pos[0] < 200:
+            self.player_circle.set_circle()
+
+
 
     def on_pre_enter(self):
         global fps, enemy_fps
-        self.restart()
+
         Clock.schedule_interval(self.update, fps)
         Clock.schedule_interval(self.enemy_update, enemy_fps)
 
@@ -545,6 +547,8 @@ class MenuScreen(Screen):
         self.menu_player.set_position()
         self.is360(self.menu_player, self.menu_circle, all=False)
         self.menu_circle.update()
+
+
 
     def on_pre_enter(self):
         Clock.schedule_interval(self.update, 1.0 / 60)
