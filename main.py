@@ -1,13 +1,13 @@
 import kivy
 
 kivy.require('1.0.6')
-from kivy.config import Config
+# from kivy.config import Config
 
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
-
-Config.set('graphics', 'width', '400')
-Config.set('graphics', 'height', '717')
+#
+# Config.set('graphics', 'width', '400')
+# Config.set('graphics', 'height', '717')
 
 from kivy.app import App
 from kivy.properties import NumericProperty, ListProperty, BooleanProperty, StringProperty
@@ -40,6 +40,7 @@ music_sound = SoundLoader.load('sounds/360music.wav')
 win_sound = SoundLoader.load('sounds/360winsound.wav')
 lose_sound = SoundLoader.load('sounds/360losesound.wav')
 click_sound = SoundLoader.load('sounds/360clicksound.wav')
+highscore_sound = SoundLoader.load('sounds/360highscoresound.wav')
 
 size = Window.size
 window_x = (size[0])
@@ -210,7 +211,7 @@ class Player(Widget):
                     self.new_actual_circle = self.main_circle
         if self.new_actual_circle != self.actual_circle:
             self.actual_circle = self.new_actual_circle
-            if self.change_direction == False:
+            if self.change_direction is False:
                 self.change_direction = True
             else:
                 self.change_direction = False
@@ -496,6 +497,8 @@ class GameOverScreen(Screen):
         if score > int(self.highscore):
             self.highscore = str(score)
             store.put('highscore', best= self.highscore)
+            highscore_sound.play()
+
 
         Clock.schedule_interval(self.update, 1.0 / 60)
 
