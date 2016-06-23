@@ -12,6 +12,7 @@ before_install:
     - pip install pip
     - pip install setuptools
     - pip install wsgiref
+    - pip install --upgrade Cython=0.23
     - git clone https://github.com/kivy/buildozer.git
     - cd buildozer
     - sudo python setup.py install
