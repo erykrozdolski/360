@@ -15,20 +15,19 @@ install:
     - cd buildozer && sudo python setup.py install
 script: buildozer android debug
 
-# using daily: 1.9.2 version and CI testing ;)
-# auto build
+# using kivy-daily: python-kivy-1.9.2-0 version and CI testing ;)
+# dist: trusty means Trusty Beta (14.04) which have new Kivy
+# auto build with buildozer
 # ---
 
+deploy:
+  provider: releases
+  api_key: ${GH_TOKEN_FROM_ENV}
+  file: ${FILENAME}
+  skip_cleanup: true
+  on:
+    tags: true
 
-# buildozer run
-# ---
-
-#deploy:
-#  provider: releases
-#  api_key: "GITHUB OAUTH TOKEN"
-#  file: "FILE TO UPLOAD"
-#  skip_cleanup: true
-#  on:
-#    tags: true
-
+# how to get GH_TOKEN?
+# https://blog.wyrihaximus.net/2015/09/github-auth-token-on-travis/
 # auto release on tags
