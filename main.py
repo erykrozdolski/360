@@ -330,29 +330,37 @@ class GameScreen(Screen):
     def raise_level(self, dt):
         global score, fps, direction_time, enemy_fps
 
-        if score > 5:
+        if 11 > score > 5:
             fps = 75
             enemy_fps = 68
             for i in self.enemies_circle_list:
                 i.local_direction_time = 300
 
-        if score > 11:
+        elif 17 > score > 11:
 
             fps = 82
             enemy_fps = 72
             for i in self.enemies_circle_list:
                 i.local_direction_time = 250
-                i.local_speed_time = 250
+
+
+        elif 23 > score > 17:
+
+            fps = 86
+            enemy_fps = 76
+            for i in self.enemies_circle_list:
+                i.local_direction_time = 250
+                i.local_speed_time = 230
                 i.max_speed = 2
 
-        if score > 23:
+        elif 35 > score > 23:
             fps = 90
             enemy_fps = 82
             for i in self.enemies_circle_list:
                 i.local_direction_time = 200
                 i.local_speed_time = 225
 
-        if score > 35:
+        elif 47 > score > 35:
             fps = 99
             enemy_fps = 90
             for i in self.enemies_circle_list:
@@ -360,14 +368,14 @@ class GameScreen(Screen):
                 i.local_speed_time = 200
 
 
-        if score > 47:
+        elif 59 > score > 47:
             fps = 110
             enemy_fps = 100
             for i in self.enemies_circle_list:
                 i.local_direction_time = 125
                 i.local_speed_time = 125
 
-        if score > 59:
+        elif 71 > score > 59:
             fps = 120
             enemy_fps = 110
             for i in self.enemies_circle_list:
@@ -375,18 +383,18 @@ class GameScreen(Screen):
                 i.local_speed_time = 100
                 i.max_speed = 2
 
-        if score > 71:
+        elif 83 > score > 71:
             for i in self.enemies_circle_list:
                 i.local_direction_time = 90
                 i.local_speed_time = 125
 
-        if score > 83:
+        elif 95 > score > 83:
             for i in self.enemies_circle_list:
                 i.local_direction_time = 125
                 i.local_speed_time = 125
                 i.max_speed = 3
 
-        if score > 95:
+        elif score > 95:
             for i in self.enemies_circle_list:
                 i.local_direction_time = 125
 
