@@ -176,7 +176,7 @@ class Player(Widget):
         self.new_actual_circle = actual_circle
         self.position_list = self.actual_circle.position_list
         self.change_direction = True
-        
+
         self.position = 180
         self.pos = self.position_list[self.position]
 
@@ -300,14 +300,15 @@ class Enemy(Widget):
     def update(self):
         global speed_time, direction_time
         self.set_position()
-        if speed_time > self.local_speed_time and randint(0, 1) and self.local_speed_time != 0:
-            self.change_speed()
-            speed_time = 0
+        if speed_time > self.local_speed_time and self.local_speed_time != 0:
+            if randint(0, 1):
+                self.change_speed()
+                speed_time = 0
 
-        if direction_time > self.local_direction_time and self.local_direction_time != 0 and randint(0, 1):
-            self.change_direction = not self.change_direction
-            direction_time = 0
-
+        if direction_time > self.local_direction_time and self.local_direction_time != 0:
+            if randint(0, 1):
+                self.change_direction = not self.change_direction
+                direction_time = 0
 
 
 class GameScreen(Screen):
