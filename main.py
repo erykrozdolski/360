@@ -199,7 +199,8 @@ class Player(Widget):
         self.pos = self.position_list[self.position]
 
     def set_circle(self):
-        if self.x > self.actual_circle.x - self.actual_circle.radius * 0.4 and self.x < self.actual_circle.x + self.actual_circle.radius * 0.4:
+        if self.actual_circle.x + self.actual_circle.radius * 0.4 > \
+                self.x > self.actual_circle.x - self.actual_circle.radius * 0.4:
             if self.actual_circle == self.main_circle:
                 if self.y < self.actual_circle.y:
                     self.new_actual_circle = self.third_circle
@@ -243,8 +244,8 @@ class Player(Widget):
                 self.actual_circle = middle_circle
                 self.position_list = middle_circle.position_list
                 self.x, self.y = middle_circle.position_list[self.position]
-                for i in self.enemies_circle_list:
-                    i.speed = 0
+                for enemy in self.enemies_circle_list:
+                    enemy.speed = 0
                     self.position = 0
 
                 self.speed = 0
@@ -278,7 +279,7 @@ class Enemy(Widget):
         self.y = self.pos[1] + self.diameter // 2
 
     def set_position(self):
-        if self.change_direction == True:
+        if self.change_direction:
             if self.position < len(self.position_list) - self.speed:
                 self.position += self.speed
             else:
@@ -295,17 +296,15 @@ class Enemy(Widget):
         if self.min_speed != self.max_speed:
             self.speed = randint(self.min_speed, self.max_speed)
 
-
-
     def update(self):
         global speed_time, direction_time
         self.set_position()
-        if speed_time > self.local_speed_time and self.local_speed_time != 0:
+        if speed_time > self.local_speed_time and self.local_speed_time:
             if randint(0, 1):
                 self.change_speed()
                 speed_time = 0
 
-        if direction_time > self.local_direction_time and self.local_direction_time != 0:
+        if direction_time > self.local_direction_time and self.local_direction_time:
             if randint(0, 1):
                 self.change_direction = not self.change_direction
                 direction_time = 0
@@ -326,7 +325,6 @@ class GameScreen(Screen):
         self.circle_list = [middle_circle, up_circle, down_circle]
         self.player_circle = Player(middle_circle, self.enemies_circle_list, middle_circle, up_circle, down_circle)
 
-
     def raise_level(self, dt):
         global score, fps, direction_time, enemy_fps
 
@@ -342,7 +340,6 @@ class GameScreen(Screen):
             enemy_fps = 72
             for i in self.enemies_circle_list:
                 i.local_direction_time = 250
-
 
         elif 23 > score > 17:
 
@@ -366,7 +363,6 @@ class GameScreen(Screen):
             for i in self.enemies_circle_list:
                 i.local_direction_time = 150
                 i.local_speed_time = 200
-
 
         elif 59 > score > 47:
             fps = 110
@@ -408,7 +404,7 @@ class GameScreen(Screen):
 
                 score += 1
                 win_sound.play()
-        if all == True:
+        if all:
             if middle_circle.is_full and up_circle.is_full and down_circle.is_full:
                 score += 3
                 for i in self.circle_list:
@@ -421,14 +417,13 @@ class GameScreen(Screen):
                 main_circle.is_full = False
 
     def restart(self):
-        global speed_time, direction_time, score, time, enemies_circle_list, fps, enemy_fps
+        global speed_time, direction_time, score, fps, enemy_fps
         self.player_circle.kill = False
 
         fps = 70
         enemy_fps = 60
         speed_time = 0
         direction_time = 0
-
 
         self.player_circle.actual_circle, self.player_circle.new_actual_circle = middle_circle, middle_circle
         self.player_circle.x, self.player_circle.y = self.player_circle.position_list[self.player_circle.position]
@@ -461,18 +456,14 @@ class GameScreen(Screen):
             sm.current = 'game_over_screen'
             self.restart()
 
-
     def enemy_update(self, dt):
 
         for circle in self.enemies_circle_list:
             circle.update()
 
-
-
-
     def on_touch_down(self, touch):
         if touch.pos[0] > 200:
-            if self.player_circle.change_direction == False:
+            if not self.player_circle.change_direction:
                 self.player_circle.change_direction = True
             else:
                 self.player_circle.change_direction = False
@@ -483,7 +474,7 @@ class GameScreen(Screen):
         global fps, enemy_fps, score
         score = 0
         Clock.schedule_interval(self.update, 1.0 / fps)
-        Clock.schedule_interval(self.enemy_update,1.0 /  enemy_fps)
+        Clock.schedule_interval(self.enemy_update, 1.0 / enemy_fps)
 
     def on_leave(self):
         Clock.unschedule(self.update)
@@ -555,7 +546,7 @@ class MenuScreen(Screen):
 
                 score += 1
 
-        if all == True:
+        if all:
             if main_circle.is_full and second_circle.is_full and third_circle.is_full:
                 score += 3
                 for i in self.circle_list:
@@ -597,7 +588,7 @@ class My360App(App):
         pass
 
     def build(self):
-        global sm, highscore
+        global sm
 
         music_sound.loop = True
         music_sound.play()
