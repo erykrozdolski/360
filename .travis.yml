@@ -4,6 +4,8 @@ language: python
 python:
     - "2.7"
 before_install:
+    - sudo apt-get install python-opengl python-gst0.10 python-enchant python-dev
+    - sudo apt-get install gstreamer0.10-plugins-good libgl1-mesa-dev-lts-quantal libgles2-mesa-dev-lts-quantal
     - sudo add-apt-repository -y ppa:kivy-team/kivy-daily
     - sudo apt-get update
     - sudo apt-get install -y python-kivy
@@ -27,7 +29,7 @@ script: nosetests
 deploy:
   provider: releases
   api_key: ${GH_TOKEN_FROM_ENV}
-  file: ${FILENAME}
+  file: "360-0.1-debug.apk"
   skip_cleanup: true
   on:
     tags: true
