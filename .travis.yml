@@ -14,7 +14,7 @@ before_install:
     - cd buildozer
     - sudo python setup.py install
     - cd ..
-    - rm -rf buildozer
+    - sudo rm -rf buildozer
 install:
     - buildozer android debug
 script: nosetests
