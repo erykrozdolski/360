@@ -34,6 +34,7 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+    branch: master
 
 # how to get GH_TOKEN?
 # https://blog.wyrihaximus.net/2015/09/github-auth-token-on-travis/
