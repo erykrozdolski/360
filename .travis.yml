@@ -15,7 +15,7 @@ before_install:
     - pip install --upgrade Cython==0.21
     - sudo apt-get update
     - sudo apt-get install -y build-essential lib32z1 lib32bz2-1.0 python2.7-dev openjdk-7-jdk unzip zlib1g-dev
-    - sudo apt-get install lib32ncurses5 
+    - sudo apt-get install -y lib32ncurses5 
     - sudo dpkg --add-architecture i386
     - sudo apt-get install -y libstdc++6:i386 zlib1g:i386
     - git clone https://github.com/kivy/buildozer.git
