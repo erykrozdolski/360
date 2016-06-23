@@ -12,9 +12,12 @@ before_install:
     - pip install pip
     - pip install setuptools
     - pip install wsgiref
-    - sudo pip install --upgrade Cython==0.21
+    - pip install --upgrade Cython==0.21
     - sudo apt-get update
-    - sudo apt-get install -y build-essential lib32z1 lib32bz2-1.0 libncurses5:i386 libstdc++6:i386 python2.7-dev openjdk-7-jdk unzip zlib1g-dev zlib1g:i386
+    - sudo apt-get install -y build-essential lib32z1 lib32bz2-1.0 python2.7-dev openjdk-7-jdk unzip zlib1g-dev
+    - sudo apt-get install ia32-libs
+    - sudo dpkg --add-architecture i386
+    - sudo apt-get install -y libncurses5:i386 libstdc++6:i386 zlib1g:i386
     - git clone https://github.com/kivy/buildozer.git
     - cd buildozer
     - sudo python setup.py install
@@ -29,6 +32,9 @@ script:
 
 # buildozer deps for Ubuntu 14.10
 # for more see: http://buildozer.readthedocs.io/en/latest/installation.html
+
+# trick needed?
+# http://askubuntu.com/questions/423083/cant-run-dpkg-add-architecture-i386-on-12-04-64-bit-to-run-eclipse-adt
 
 # auto build with buildozer
 # ---
