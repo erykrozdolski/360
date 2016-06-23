@@ -176,8 +176,10 @@ class Player(Widget):
         self.new_actual_circle = actual_circle
         self.position_list = self.actual_circle.position_list
         self.change_direction = True
-
+        
         self.position = 180
+        self.pos = self.position_list[self.position]
+
         self.speed = 2
         self.enemies_circle_list = enemies_circle_list
         self.x = self.pos[0] + self.radius
@@ -267,7 +269,7 @@ class Enemy(Widget):
         self.position_list = self.actual_circle.position_list
         self.local_speed_time = 0
         self.local_direction_time = 0
-
+        self.pos = self.position_list[self.position]
         self.speed = 1
         self.min_speed = 1
         self.max_speed = 1
@@ -326,14 +328,12 @@ class GameScreen(Screen):
 
     def raise_level(self, dt):
         global score, fps, direction_time, enemy_fps
+
         if score > 5:
             fps = 75
             enemy_fps = 68
             for i in self.enemies_circle_list:
                 i.local_direction_time = 300
-
-
-
 
         if score > 11:
 
@@ -341,7 +341,7 @@ class GameScreen(Screen):
             enemy_fps = 72
             for i in self.enemies_circle_list:
                 i.local_direction_time = 250
-                i.local_speed_time = 300
+                i.local_speed_time = 250
                 i.max_speed = 2
 
         if score > 23:
@@ -349,7 +349,7 @@ class GameScreen(Screen):
             enemy_fps = 82
             for i in self.enemies_circle_list:
                 i.local_direction_time = 200
-                i.local_speed_time = 250
+                i.local_speed_time = 225
 
         if score > 35:
             fps = 99
@@ -384,11 +384,12 @@ class GameScreen(Screen):
                 i.local_direction_time = 125
                 i.local_speed_time = 125
                 i.max_speed = 3
+
         if score > 95:
             for i in self.enemies_circle_list:
                 i.local_direction_time = 125
 
-    def is360(self, player, main_circle, all=True, second_circle=up_circle, third_circle=down_circle):
+    def is360(self, player, main_circle, all=True):
 
         global score, win_sound, middle_circle, down_circle, up_circle
         if player.position not in player.actual_circle.was_position:
@@ -575,7 +576,7 @@ class HtpScreen(Screen):
         super(HtpScreen, self).__init__(**kwargs)
 
         self.back1tomenu_button = CircleButton(big_grey_circle_path, 'menu_screen', 80,
-                                               [window_x // 2, window_y // 2 - 250], 25, 'back')
+                                               [window_x // 2, window_y // 2 - 200], 25, 'back')
         self.add_widget(self.back1tomenu_button)
 
 
