@@ -46,8 +46,8 @@ size = Window.size
 window_x = (size[0])
 window_y = (size[1])
 
-fps = 0.0142
-enemy_fps = 0.016
+fps = 70
+enemy_fps = 60
 speed_time = 0
 direction_time = 0
 score = 0
@@ -73,10 +73,10 @@ class CircleButton(Widget):
         self.y = self.midpoint[1]
         self.corner_pos = (self.x - self.radius, self.y - self.radius)
         self.word = word
-        self.label = Label(center_x=self.x, center_y=self.y, font_size=(self.font_size), text=(self.word))
+        self.label = Label(center_x=self.x, center_y=self.y, font_size=self.font_size, text=self.word)
 
         with self.canvas:
-            Ellipse(texture=(self.texture), pos=(self.corner_pos), size=(self.radius * 2, self.radius * 2))
+            Ellipse(texture=self.texture, pos=self.corner_pos, size=(self.radius * 2, self.radius * 2))
         self.add_widget(self.label)
 
     def on_touch_down(self, touch):
@@ -98,11 +98,11 @@ class TinyButton(Widget):
         self.y = self.midpoint[1]
         self.corner_pos = (self.x - self.radius, self.y - self.radius)
         self.word = word
-        self.label = Label(x=self.midpoint[0], center_y=self.midpoint[1], font_size=(self.font_size), text=(self.word))
+        self.label = Label(x=self.midpoint[0], center_y=self.midpoint[1], font_size=self.font_size, text=self.word)
         self.label.bind(size=self.label.setter('text_size'))
 
         with self.canvas:
-            Ellipse(texture=(self.texture), pos=(self.corner_pos), size=(self.radius * 2, self.radius * 2))
+            Ellipse(texture=self.texture, pos=self.corner_pos, size=(self.radius * 2, self.radius * 2))
         self.add_widget(self.label)
 
     def on_touch_down(self, touch):
@@ -184,7 +184,7 @@ class Player(Widget):
         self.y = self.pos[1] + self.radius
 
     def set_position(self):
-        if self.change_direction == True:
+        if self.change_direction:
             if self.position < len(self.position_list) - self.speed:
                 self.position += self.speed
             else:
@@ -211,7 +211,7 @@ class Player(Widget):
                     self.new_actual_circle = self.main_circle
         if self.new_actual_circle != self.actual_circle:
             self.actual_circle = self.new_actual_circle
-            if self.change_direction == False:
+            if self.change_direction is False:
                 self.change_direction = True
             else:
                 self.change_direction = False
@@ -289,19 +289,23 @@ class Enemy(Widget):
         self.pos = self.position_list[self.position]
 
     def change_speed(self):
+
         if self.min_speed != self.max_speed:
-            self.speed = randrange(self.min_speed, self.max_speed + 1)
+            self.speed = randint(self.min_speed, self.max_speed)
+
+
 
     def update(self):
         global speed_time, direction_time
         self.set_position()
-
         if speed_time > self.local_speed_time and randint(0, 1) and self.local_speed_time != 0:
             self.change_speed()
             speed_time = 0
+
         if direction_time > self.local_direction_time and self.local_direction_time != 0 and randint(0, 1):
             self.change_direction = not self.change_direction
             direction_time = 0
+
 
 
 class GameScreen(Screen):
@@ -319,60 +323,68 @@ class GameScreen(Screen):
         self.circle_list = [middle_circle, up_circle, down_circle]
         self.player_circle = Player(middle_circle, self.enemies_circle_list, middle_circle, up_circle, down_circle)
 
+
     def raise_level(self, dt):
         global score, fps, direction_time, enemy_fps
-        if score > 6:
-            fps = 0.013
-            enemy_fps = 0.015
+        if score > 5:
+            fps = 75
+            enemy_fps = 68
             for i in self.enemies_circle_list:
                 i.local_direction_time = 300
 
-        if score > 12:
 
-            fps = 0.010
-            enemy_fps = 0.012
+
+
+        if score > 11:
+
+            fps = 82
+            enemy_fps = 76
             for i in self.enemies_circle_list:
                 i.local_direction_time = 250
-
-        if score > 24:
-            fps = 0.009
-            enemy_fps = 0.011
-            for i in self.enemies_circle_list:
-                i.local_direction_time = 200
-
-        if score > 36:
-            fps = 0.008
-            enemy_fps = 0.010
-            for i in self.enemies_circle_list:
-                i.local_direction_time = 150
                 i.local_speed_time = 300
-
-        if score > 48:
-            fps = 0.007
-            enemy_fps = 0.009
-            for i in self.enemies_circle_list:
-                i.local_direction_time = 125
-                i.local_speed_time = 400
-
-        if score > 60:
-            fps = 0.006
-            enemy_fps = 0.008
-            for i in self.enemies_circle_list:
-                i.local_direction_time = 100
-                i.local_speed_time = 125
                 i.max_speed = 2
 
-        if score > 72:
+        if score > 23:
+            fps = 90
+            enemy_fps = 86
+            for i in self.enemies_circle_list:
+                i.local_direction_time = 200
+                i.local_speed_time = 250
+
+        if score > 35:
+            fps = 99
+            enemy_fps = 95
+            for i in self.enemies_circle_list:
+                i.local_direction_time = 150
+                i.local_speed_time = 200
+
+
+        if score > 47:
+            fps = 110
+            enemy_fps = 106
+            for i in self.enemies_circle_list:
+                i.local_direction_time = 125
+                i.local_speed_time = 125
+
+        if score > 59:
+            fps = 120
+            enemy_fps = 116
+            for i in self.enemies_circle_list:
+                i.local_direction_time = 100
+                i.local_speed_time = 100
+                i.max_speed = 2
+
+        if score > 71:
             for i in self.enemies_circle_list:
                 i.local_direction_time = 90
                 i.local_speed_time = 125
 
-        if score > 84:
+        if score > 83:
             for i in self.enemies_circle_list:
                 i.local_direction_time = 125
                 i.local_speed_time = 125
                 i.max_speed = 3
-        if score > 96:
+        if score > 95:
             for i in self.enemies_circle_list:
                 i.local_direction_time = 125
 
@@ -397,15 +409,16 @@ class GameScreen(Screen):
             if main_circle.is_full:
                 main_circle.was_position = []
                 main_circle.is_full = False
+
     def restart(self):
         global speed_time, direction_time, score, time, enemies_circle_list, fps, enemy_fps
         self.player_circle.kill = False
 
-        fps = 0.0142
-        enemy_fps = 0.016
+        fps = 70
+        enemy_fps = 60
         speed_time = 0
         direction_time = 0
-        score = 0
+
 
         self.player_circle.actual_circle, self.player_circle.new_actual_circle = middle_circle, middle_circle
         self.player_circle.x, self.player_circle.y = self.player_circle.position_list[self.player_circle.position]
@@ -420,6 +433,7 @@ class GameScreen(Screen):
         for i in self.circle_list:
             i.was_position = []
             i.is_full = False
+
     def update(self, dt):
 
         global score, direction_time, sm, speed_time
@@ -437,16 +451,14 @@ class GameScreen(Screen):
             sm.current = 'game_over_screen'
             self.restart()
 
+
     def enemy_update(self, dt):
 
         for circle in self.enemies_circle_list:
             circle.update()
 
 
-    def enemy_change_speed(self, dt):
 
-        if self.min_speed != self.max_speed:
-            self.speed = random.randrange(self.min_speed, self.max_speed)
 
     def on_touch_down(self, touch):
         if touch.pos[0] > 200:
@@ -457,13 +469,11 @@ class GameScreen(Screen):
         elif touch.pos[0] < 200:
             self.player_circle.set_circle()
 
-
-
     def on_pre_enter(self):
-        global fps, enemy_fps
-
-        Clock.schedule_interval(self.update, fps)
-        Clock.schedule_interval(self.enemy_update, enemy_fps)
+        global fps, enemy_fps, score
+        score = 0
+        Clock.schedule_interval(self.update, 1.0 / fps)
+        Clock.schedule_interval(self.enemy_update,1.0 /  enemy_fps)
 
     def on_leave(self):
         Clock.unschedule(self.update)
@@ -487,7 +497,7 @@ class GameOverScreen(Screen):
         self.add_widget(self.again_button)
         self.add_widget(self.menu_button)
 
-    def update(self,dt):
+    def update(self, dt):
         global score, direction_time, sm
         self.game_score = str(score)
 
@@ -496,9 +506,8 @@ class GameOverScreen(Screen):
 
         if score > int(self.highscore):
             self.highscore = str(score)
-            store.put('highscore', best= self.highscore)
+            store.put('highscore', best=self.highscore)
             highscore_sound.play()
-
 
         Clock.schedule_interval(self.update, 1.0 / 60)
 
@@ -553,8 +562,6 @@ class MenuScreen(Screen):
         self.menu_player.set_position()
         self.is360(self.menu_player, self.menu_circle, all=False)
         self.menu_circle.update()
-
-
 
     def on_pre_enter(self):
         Clock.schedule_interval(self.update, 1.0 / 60)
