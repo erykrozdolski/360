@@ -14,8 +14,11 @@ before_install:
     - cd buildozer && sudo python setup.py install
 install:
     - ls -la
-    - ls -la project
+    - ls -la .. 
+    - cd ..
+    - ls -la
     - pwd
+    - cd project || 0
     - buildozer android debug
 script: nosetests
 
