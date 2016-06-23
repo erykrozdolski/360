@@ -13,6 +13,9 @@ before_install:
     - git clone https://github.com/kivy/buildozer.git
     - cd buildozer && sudo python setup.py install
 install:
+    - ls -la
+    - ls -la project
+    - pwd
     - buildozer android debug
 script: nosetests
 
