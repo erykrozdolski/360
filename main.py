@@ -261,7 +261,7 @@ class Enemy(Widget):
     diameter = 22
     radius = diameter // 2
     change_direction = BooleanProperty(True)
-    position = NumericProperty(0)
+    position = NumericProperty(1)
 
     def __init__(self, circle, **kwargs):
         super(Enemy, self).__init__(**kwargs)
