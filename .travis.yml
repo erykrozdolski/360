@@ -49,7 +49,7 @@ deploy:
     - "bin/360-0.1-release-unsigned.apk"
   skip_cleanup: true
   on:
-    branch: master
+    tags: true
 
 # how to get GH_TOKEN?
 # https://blog.wyrihaximus.net/2015/09/github-auth-token-on-travis/
