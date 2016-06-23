@@ -30,7 +30,7 @@ try:
 except KeyError:
     store.put('highscore', best=0)
 
-circle_path = 'images/circle.png'
+circle_path = 'images/icon.png'
 white_circle_path = 'images/white_circle.png'
 grey_circle_path = 'images/grey_circle.png'
 big_grey_circle_path = 'images/big_grey_circle.png'
