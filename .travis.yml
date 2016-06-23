@@ -21,14 +21,15 @@ before_install:
     - sudo python setup.py install
     - cd ..
     - sudo rm -rf buildozer
-install:
+script:
     - buildozer android debug
-script: nosetests
+    - buildozer android release
 
 # using kivy-daily: python-kivy-1.9.2-0 version and CI testing ;)
 # dist: trusty means Trusty Beta (14.04) which have new Kivy
 
 # buildozer deps for Ubuntu 14.10
+# for more see: http://buildozer.readthedocs.io/en/latest/installation.html
 
 # auto build with buildozer
 # ---
@@ -36,7 +37,8 @@ script: nosetests
 deploy:
   provider: releases
   api_key: ${GH_TOKEN_FROM_ENV}
-  file: "360-0.1-debug.apk"
+  file: 
+    - "360-0.1-debug.apk"
   skip_cleanup: true
   on:
     tags: true
