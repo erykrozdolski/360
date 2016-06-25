@@ -8,7 +8,7 @@ from kivy.uix.label import Label
 
 Config.set('graphics', 'width', '400')
 Config.set('graphics', 'height', '717')
-
+from time import sleep
 from kivy.app import App
 from kivy.properties import NumericProperty, ListProperty, BooleanProperty, StringProperty
 from kivy.clock import Clock
@@ -199,8 +199,8 @@ class Player(Widget):
         self.pos = self.position_list[self.position]
 
     def set_circle(self):
-        if self.actual_circle.x + self.actual_circle.radius * 0.4 > \
-                self.x > self.actual_circle.x - self.actual_circle.radius * 0.4:
+        if self.actual_circle.x + self.actual_circle.radius * 0.5 > \
+                self.x > self.actual_circle.x - self.actual_circle.radius * 0.5:
             if self.actual_circle == self.main_circle:
                 if self.y < self.actual_circle.y:
                     self.new_actual_circle = self.third_circle
@@ -240,7 +240,7 @@ class Player(Widget):
         global score, lose_sound
         for i in self.enemies_circle_list:
             distance = sqrt((i.x - self.x) ** 2 + (i.y - self.y) ** 2)
-            if distance <= self.radius + i.radius:
+            if distance < self.radius + i.radius - 4:
                 self.actual_circle = middle_circle
                 self.position_list = middle_circle.position_list
                 self.x, self.y = middle_circle.position_list[self.position]
@@ -261,7 +261,7 @@ class Enemy(Widget):
     diameter = 22
     radius = diameter // 2
     change_direction = BooleanProperty(True)
-    position = NumericProperty(1)
+    position = NumericProperty(350)
 
     def __init__(self, circle, **kwargs):
         super(Enemy, self).__init__(**kwargs)
@@ -453,6 +453,10 @@ class GameScreen(Screen):
             circle.update()
 
         if self.player_circle.do_kill():
+            for enemy in self.enemies_circle_list:
+                enemy.speed = 0
+            self.player_circle.speed = 0
+            sleep(0.4)
             sm.current = 'game_over_screen'
             self.restart()
 
