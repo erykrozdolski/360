@@ -4,7 +4,7 @@
 title = 360
 
 # (str) Package name
-package.name = circlearound
+package.name = circlecircle
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
 

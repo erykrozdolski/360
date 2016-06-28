@@ -237,7 +237,7 @@ class Player(Widget):
 
     def do_kill(self):
 
-        global score, lose_sound
+        global score
         for i in self.enemies_circle_list:
             distance = sqrt((i.x - self.x) ** 2 + (i.y - self.y) ** 2)
             if distance < self.radius + i.radius - 4:
@@ -396,7 +396,7 @@ class GameScreen(Screen):
 
     def is360(self, player, main_circle, all=True):
 
-        global score, win_sound, middle_circle, down_circle, up_circle
+        global score, middle_circle, down_circle, up_circle
         if player.position not in player.actual_circle.was_position:
             player.actual_circle.was_position.append(player.position)
             if (len(player.actual_circle.was_position)) == len(player.actual_circle.position_list) / 2:
@@ -466,12 +466,12 @@ class GameScreen(Screen):
             circle.update()
 
     def on_touch_down(self, touch):
-        if touch.pos[0] > 200:
+        if touch.pos[0] > window_x//2:
             if not self.player_circle.change_direction:
                 self.player_circle.change_direction = True
             else:
                 self.player_circle.change_direction = False
-        elif touch.pos[0] < 200:
+        elif touch.pos[0] < window_x//2:
             self.player_circle.set_circle()
 
     def on_pre_enter(self):
