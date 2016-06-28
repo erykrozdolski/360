@@ -4,7 +4,7 @@
 title = 360
 
 # (str) Package name
-package.name = circlecircle
+package.name = circle0.3
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
 
@@ -24,7 +24,7 @@ source.include_exts =
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.2
+version = 0.3
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]

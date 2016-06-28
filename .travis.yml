@@ -45,8 +45,8 @@ deploy:
   provider: releases
   api_key: ${GH_TOKEN_FROM_ENV}
   file: 
-    - "bin/360-0.2-debug.apk"
-    - "bin/360-0.2-release-unsigned.apk"
+    - "bin/360-0.3-debug.apk"
+    - "bin/360-0.3-release-unsigned.apk"
   skip_cleanup: true
   on:
     tags: true
